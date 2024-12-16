@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+streamlit
+requests  # If you need to make HTTP requests from Streamlit to FastAPI
+pydantic
+chromadb  # Your vector DB client
+
