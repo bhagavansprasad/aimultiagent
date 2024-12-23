@@ -5,6 +5,7 @@ from backend.processors.mahabharata_db import MahabharataDBProcessor
 from backend.processors.programming_db import ProgrammingDBProcessor
 from backend.processors.cholas_db import CholasDBProcessor
 from backend.processors.sabarimala import SabarimalaDBProcessor
+from backend.processors.sirijeevana import SirijeevanaDBProcessor
 from typing import Dict
 
 from pdbwhereami import whereami
@@ -17,6 +18,7 @@ class QueryProcessorFactory:
         "progrmmingVDB": ProgrammingDBProcessor,
         "cholas-vdb": CholasDBProcessor,
         "sabarimala-vdb": SabarimalaDBProcessor,
+        "sirijeevana-vdb": SirijeevanaDBProcessor,
     }
 
     @staticmethod

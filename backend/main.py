@@ -7,6 +7,9 @@ import chromadb
 from backend.models.user_query import VectorDBQueryProcessor
 from backend.utils.query_processor_factory import QueryProcessorFactory
 from pdbwhereami import whereami
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = FastAPI()
 vector_dbs_path = Config.VECTOR_DBS_PATH
@@ -42,22 +45,11 @@ def get_collections(vdb_name: str = Query(..., description="Name of the VectorDB
 class UserQuery(BaseModel):
     query: str
 
-# @app.post("/user_query")
-# async def user_query(request: Request, query: UserQuery = Body(...)):
-#     whereami()
-    
-#     processed_query = {"answer" : query.query}
-#     raw_payload = await request.json()
-#     print(f"Payload :{raw_payload}")
-#     return processed_query
-
-# app = FastAPI()
-
 @app.post("/user_query")
-async def user_query(request: Request, query: UserQuery = Body(...)):
+def user_query(request: Request, query: UserQuery = Body(...)):
     whereami()
     
-    raw_payload = await request.json()
+    raw_payload = request.json()
     whereami(f"raw_payload :{raw_payload}")
     vector_db_name = raw_payload.get("vdb_name")
     collection = raw_payload.get("collection_name")
@@ -68,7 +60,7 @@ async def user_query(request: Request, query: UserQuery = Body(...)):
     processor: VectorDBQueryProcessor = QueryProcessorFactory.get_processor(vector_db_name)
     
     # Process the query and get the answer
-    processed_query = await processor.process_query(query.query, collection)
+    processed_query = processor.process_query(query.query, collection, vector_db_name)
     
     print(f"Payload :{raw_payload}")
     return processed_query

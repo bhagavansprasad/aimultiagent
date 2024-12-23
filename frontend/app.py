@@ -80,10 +80,12 @@ def main_app():
     
     selected_collection = display_collections(selected_vdb)
 
+    sample_text = "common questions people have about millet consumption and provide me the answers also"
     user_query = st.chat_input("What is up?")
-    if not user_query:
-        return 0 
+    # if not user_query:
+    #     return 0 
     
+    user_query = sample_text
     print(f"user_query :{user_query}")
 
     if user_query:

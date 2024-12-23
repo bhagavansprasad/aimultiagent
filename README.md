@@ -5,3 +5,6 @@ uvicorn backend.main:app --reload
 - Frontend (Streamlit) app run
 <!-- streamlit run 02-slui.py -->
 streamlit run frontend/app.py
+
+<!-- Use cases -->
+- test_basic_query

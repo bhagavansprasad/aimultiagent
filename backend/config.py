@@ -4,13 +4,27 @@ class Config:
     # General settings
     DEBUG = True
     API_URL = "http://localhost:8000"
+    
+    # Vector DBs path
+    VECTOR_DBS_PATH = "/home/bhagavan/vectDBs/"
+    
+    # Cache VDB details
+    VECTOR_CACHE_DB = "cache-vdb"
+    CACHE_COLLECTION = "cache-collection"
+    
+    # Model details
+    TEXT_EMBEDDING_MODEL = "text-embedding-004"
+    GEMINI_MODEL = "gemini-1.5-flash"
+    
+    MAX_TOKENS = 4096
 
-    VECTOR_DBS_PATH = "/home/bhagavan/vectDBs"
+    # User data path    
+    USER_DATA_PATH = "/home/bhagavan/userdata/"
+
+    # Sirijeevana details
+    SIRIJEEVANA_ATTACHMENTS = "sirijeevana/attachments/"
+    SIRIJEEVANA_DATA = "sirijeevana/sirijeevana.txt"
+    SIRIJEEVANA_PARSED_DATA = "sirijeevana/sirijeevana.json"
+    SIRIJEEVANA_VECTOR_DB_NAME = "sirijeevana-vdb"
+    SRIRIJEEVANA_COLLECTION_NAME = "sirijeevana"
     
-    # VectorDB connection settings
-    CHROMA_DB_URI = "path/to/chroma/db"
-    RAMAYANA_DB_URI = "path/to/ramayana/db"
-    MAHABHARATA_DB_URI = "path/to/mahabharata/db"
-    
-    # Other configurations (could be secrets, logging, etc.)
-    SECRET_KEY = "your_secret_key"
