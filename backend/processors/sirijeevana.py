@@ -55,10 +55,10 @@ class SirijeevanaDBProcessor(VectorDBQueryProcessor):
        
         return response.text 
         
-    def process_query(self, query: str, collection: str, vdb_name: str) -> dict:
-        reply = self.basic_query(query, collection, vdb_name)
-        print(f"{vdb_name}->{collection}: Query :{query}")
-        return {"answer": reply}
+    def process_query(self, query: str) -> dict:
+        reply = self.basic_query(query)
+        print(f"Sirijeevana: Query :{query}")
+        return reply
     
     
 # Q. Share me cough protocol

@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import json
 from pdbwhereami import whereami
 
 # Define the FastAPI endpoints
@@ -58,12 +59,54 @@ def post_query_to_user(vdb_name, collection_name, query_text):
         response = requests.post(USER_QUERY_ENDPOINT, json=payload)        
         
         response.raise_for_status()
-        st.write("Query Results:")
-        st.text(response.text)
-        return response.json()
+        # st.write("Query Results:")
+        # whereami(f"response text :{response.text}")
+        # st.text(response.text)
+        return response.text
     except requests.exceptions.RequestException as e:
         st.error(f"Error performing user query for '{query_text}' on {vdb_name}/{collection_name}: {e}")
         return {}
+
+def display_qna(dreply, rlist):
+    st.markdown("""
+        <style>
+        .small-font {
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+    
+    st.markdown(f"**Question:** {dreply['query']}")
+    
+    st.markdown(f"<div class='small-font'>{rlist[0].strip()}</div>", unsafe_allow_html=True)
+
+    
+    for row in rlist[1:]:
+        q, a = row.strip().split('\n')
+        st.markdown(f"<div class='small-font'>{q.strip()}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='small-font'>{a.strip()}</div>", unsafe_allow_html=True)
+
+def display_qna(dreply, rlist):
+    st.markdown("""
+        <style>
+        .small-font {
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+    
+    st.markdown(f"**Question:** {dreply['query']}")
+    
+    st.markdown(f"<div class='small-font'>{rlist[0].strip()}</div><br>", unsafe_allow_html=True)
+    
+    for row in rlist[1:]:
+        q, a = row.strip().split('\n')
+        st.markdown(f"<div class='small-font'><b>{q.strip()}</b></div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='small-font'>{a.strip()}</div><br>", unsafe_allow_html=True)
     
 def main_app():
     vectordbs_data = fetch_vectordbs()
@@ -80,18 +123,19 @@ def main_app():
     
     selected_collection = display_collections(selected_vdb)
 
-    sample_text = "common questions people have about millet consumption and provide me the answers also"
+    # "common questions people have about millet consumption and provide me the answers also"
     user_query = st.chat_input("What is up?")
-    # if not user_query:
-    #     return 0 
-    
-    user_query = sample_text
     print(f"user_query :{user_query}")
 
     if user_query:
         reply = post_query_to_user(selected_vdb, selected_collection, user_query)
-        print(reply)
-    
+        response = json.loads(reply.strip())
+
+        reply_text = response['reply']
+        rlist = reply_text.split('\n\n')
+        display_qna(response, rlist)
+
+        
 def main():
     main_app()
     return

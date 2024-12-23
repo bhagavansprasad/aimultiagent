@@ -46,21 +46,26 @@ class UserQuery(BaseModel):
     query: str
 
 @app.post("/user_query")
-def user_query(request: Request, query: UserQuery = Body(...)):
-    whereami()
-    
-    raw_payload = request.json()
-    whereami(f"raw_payload :{raw_payload}")
+async def user_query(request: Request, query: UserQuery = Body(...)):
+    whereami(f"request :{request}")
+    whereami(f"query :{query}")
+
+    raw_payload = await request.json()
+
     vector_db_name = raw_payload.get("vdb_name")
-    collection = raw_payload.get("collection_name")
-    whereami(f"vector_db_name :{vector_db_name}")
-    whereami(f"collection :{collection}")
+    collection_name = raw_payload.get("collection_name")
+    query = raw_payload.get("query")
+
+    whereami(f"vectorDB Name   :{vector_db_name}")
+    whereami(f"Collection Name :{collection_name}")
+    whereami(f"Query :{query}")
     
     # Get the correct processor based on the vector_db_name
     processor: VectorDBQueryProcessor = QueryProcessorFactory.get_processor(vector_db_name)
     
     # Process the query and get the answer
-    processed_query = processor.process_query(query.query, collection, vector_db_name)
+    reply = processor.process_query(query)
     
-    print(f"Payload :{raw_payload}")
-    return processed_query
+    whereami(f"processed_query :{reply}")
+    return {"query": query, "reply": reply}
+    
