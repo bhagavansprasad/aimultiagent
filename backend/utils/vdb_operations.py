@@ -114,3 +114,20 @@ class VDBOperations():
             
         return context
 
+    def vdb_get_stats(self):
+        count = self.vdb_collection.count()
+        logging.debug(f"Found the collection '{self.coll_name}' with document count :{count}")
+        data = self.vdb_collection.get(include=['metadatas'])
+        
+        # mdata = data['metadatas']
+        # # print(mdata)
+        # print(type(mdata))
+        # context = []
+        
+        # for d in data['metadatas']:
+        #     author = d['Author']
+        #     attachment = d['attachment'] if len(d['attachment']) > 0 else "None"
+        #     context.append(f"'{author}, {attachment}'")
+        
+        return data['metadatas']
+

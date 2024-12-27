@@ -65,7 +65,35 @@ async def user_query(request: Request, query: UserQuery = Body(...)):
     
     # Process the query and get the answer
     reply = processor.process_query(query)
-    
     whereami(f"processed_query :{reply}")
-    return {"query": query, "reply": reply}
+
+    return reply
+
+@app.get("/group_members")
+def get_group_members(vdb_name: str = Query(...), collection_name: str = Query(...)):
+    whereami(f"Fetching group members for {vdb_name}/{collection_name}")
+
+    processor: VectorDBQueryProcessor = QueryProcessorFactory.get_processor(vdb_name)
+    reply = processor.get_group_members(vdb_name, collection_name)
     
+    return reply
+
+@app.get("/stats")
+def get_stats(vdb_name: str = Query(...), collection_name: str = Query(...)):
+    whereami(f"Fetching stats for {vdb_name}/{collection_name}")
+
+    processor: VectorDBQueryProcessor = QueryProcessorFactory.get_processor(vdb_name)
+    reply = processor.get_group_members(vdb_name, collection_name)
+    
+    return reply
+    
+
+@app.get("/documents")
+def get_documents(vdb_name: str = Query(...), collection_name: str = Query(...)):
+    whereami(f"Fetching documents for {vdb_name}/{collection_name}")
+    
+    processor: VectorDBQueryProcessor = QueryProcessorFactory.get_processor(vdb_name)
+    reply = processor.get_group_members(vdb_name, collection_name)
+    
+    return reply
+
