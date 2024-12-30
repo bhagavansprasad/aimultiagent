@@ -22,4 +22,7 @@ streamlit run frontend/app.py
 #### Features
 1. Creating document's embeddings from separte process context
 2. Allow search on Embedding
-
+#### Documentation
+1. Creating architecture diagram
+2. Sequence flow diagram for each usecase
+3. REST API based documentation
